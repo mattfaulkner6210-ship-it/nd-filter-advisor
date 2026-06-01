@@ -90,10 +90,19 @@ select:focus { border-color: var(--gb); }
 .light-bar { margin: 0.4rem 1.25rem 0; height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; display: none; }
 .light-bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease, background 0.4s ease; }
 
-/* Start button */
+/* Start / freeze / restart buttons */
 .btn-start { display: flex; align-items: center; justify-content: center; gap: 8px; width: calc(100% - 2.5rem); margin: 0.75rem 1.25rem 0; padding: 14px; background: var(--gm); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border: none; border-radius: var(--rs); cursor: pointer; transition: background 0.15s, transform 0.1s; }
 .btn-start:active { background: var(--gd); transform: scale(0.98); }
 .btn-start svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-row { display: flex; gap: 10px; margin: 0.75rem 1.25rem 0; display: none; }
+.btn-freeze { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; background: rgba(74,222,128,0.1); color: #4ade80; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border: 1.5px solid #4ade80; border-radius: var(--rs); cursor: pointer; transition: all 0.15s; }
+.btn-freeze.frozen { background: #4ade80; color: #0a2e10; }
+.btn-freeze:active { transform: scale(0.98); }
+.btn-freeze svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-restart { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 14px 18px; background: var(--bg2); color: var(--tx2); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; border: 0.5px solid var(--bd2); border-radius: var(--rs); cursor: pointer; transition: background 0.15s, transform 0.1s; }
+.btn-restart:active { transform: scale(0.98); }
+.btn-restart svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.frozen-banner { margin: 0.5rem 1.25rem 0; background: rgba(74,222,128,0.08); border: 0.5px solid rgba(74,222,128,0.3); border-radius: var(--rs); padding: 8px 14px; font-size: 12px; color: #4ade80; display: none; text-align: center; }
 
 /* ── Result card — BIG prominent panel ── */
 .result-panel { margin: 1rem 1.25rem 0; background: var(--gm); border-radius: var(--r); padding: 1.25rem; display: none; animation: fadeUp 0.3s ease; }
@@ -271,6 +280,21 @@ select:focus { border-color: var(--gb); }
     Start camera meter
   </button>
 
+  <div class="btn-row" id="btnRow">
+    <button class="btn-freeze" id="freezeBtn">
+      <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      Freeze reading
+    </button>
+    <button class="btn-restart" id="restartBtn" title="Restart camera">
+      <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      Restart
+    </button>
+  </div>
+
+  <div class="frozen-banner" id="frozenBanner">
+    Reading frozen — tap Unfreeze to take a new reading
+  </div>
+
   <!-- Warning -->
   <div class="warn-card" id="warnCard"></div>
 
@@ -335,7 +359,7 @@ select:focus { border-color: var(--gb); }
   <div class="steps" style="margin: 1rem 1.25rem 0;">
     <div class="steps-title">How to use</div>
     <div class="step"><div class="step-n">1</div><p><strong>Select your drone</strong> — aperture is set automatically. Your last choice is remembered.</p></div>
-    <div class="step"><div class="step-n">2</div><p><strong>Start the camera</strong> and aim at the <strong>brightest part of the sky</strong>. Tap to move the meter spot.</p></div>
+    <div class="step"><div class="step-n">2</div><p><strong>Start the camera</strong> and aim at the <strong>brightest part of the sky</strong>. Tap to move the meter spot. Tap <strong>Freeze</strong> to lock the reading so you can read the screen comfortably.</p></div>
     <div class="step"><div class="step-n">3</div><p><strong>Fit the recommended ND filter</strong> before take-off, then lock your drone in manual mode and fly.</p></div>
   </div>
 
@@ -504,11 +528,41 @@ const camHint        = document.getElementById('camHint');
 const cameraWrap     = document.getElementById('cameraWrap');
 const installBanner  = document.getElementById('installBanner');
 const installClose   = document.getElementById('installClose');
+const btnRow         = document.getElementById('btnRow');
+const freezeBtn      = document.getElementById('freezeBtn');
+const restartBtn     = document.getElementById('restartBtn');
+const frozenBanner   = document.getElementById('frozenBanner');
 
 installClose.addEventListener('click', () => { installBanner.style.display = 'none'; });
 if (window.navigator.standalone) installBanner.style.display = 'none';
 
+freezeBtn.addEventListener('click', () => {
+  frozen = !frozen;
+  if (frozen) {
+    freezeBtn.innerHTML = '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Unfreeze';
+    freezeBtn.classList.add('frozen');
+    camBadge.textContent = '⏸ FROZEN';
+    camBadge.style.color = '#4ade80';
+    frozenBanner.style.display = 'block';
+  } else {
+    freezeBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Freeze reading';
+    freezeBtn.classList.remove('frozen');
+    camBadge.textContent = '● LIVE';
+    camBadge.style.color = '';
+    frozenBanner.style.display = 'none';
+  }
+});
+
+restartBtn.addEventListener('click', () => {
+  frozen = false;
+  freezeBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Freeze reading';
+  freezeBtn.classList.remove('frozen');
+  frozenBanner.style.display = 'none';
+  startCamera();
+});
+
 let cameraActive = false;
+let frozen = false;
 let meterX = 0.5, meterY = 0.5;
 let currentEV = null;
 let reticleEl = null;
@@ -572,12 +626,19 @@ async function startCamera() {
     video.srcObject = stream;
     await video.play();
     cameraActive = true;
-    camHint.textContent = 'Tap anywhere to move the meter spot · aim at brightest sky';
+    frozen = false;
+    camHint.textContent = 'Tap to move meter spot · Freeze to lock the reading';
+    camBadge.textContent = '● LIVE';
+    camBadge.style.color = '';
     camBadge.style.display = 'block';
     startBtn.style.display = 'none';
+    btnRow.style.display = 'flex';
+    frozenBanner.style.display = 'none';
+    freezeBtn.classList.remove('frozen');
+    freezeBtn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Freeze reading';
     evCard.style.display = 'flex';
     lightBar.style.display = 'block';
-    buildReticle();
+    if (!reticleEl) buildReticle();
     meterLoop();
   } catch(err) {
     camHint.innerHTML = '⚠ Camera access denied. In Safari: Settings → ' + (location.hostname || 'this site') + ' → Camera → Allow';
@@ -586,6 +647,7 @@ async function startCamera() {
 
 function meterLoop() {
   if (!cameraActive) return;
+  if (frozen) { setTimeout(meterLoop, 300); return; }
   try {
     canvas.width  = video.videoWidth  || 320;
     canvas.height = video.videoHeight || 240;
