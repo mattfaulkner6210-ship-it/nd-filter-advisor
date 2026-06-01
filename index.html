@@ -3,394 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<!-- iOS Web App -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ND Advisor">
-
-<!-- Android Web App -->
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0d1117">
-
-<!-- SEO -->
 <title>DJI ND Filter Advisor — Drone Light Meter & Filter Calculator</title>
 <meta name="description" content="Free tool for DJI drone pilots. Meter the light with your iPhone camera, select your drone, and instantly get the correct ND filter using the 180° shutter rule. No guesswork.">
-<meta name="keywords" content="DJI, ND filter, drone, light meter, Mini 4 Pro, Mavic 3, 180 degree rule, shutter speed, cinematography">
+<meta name="keywords" content="DJI, ND filter, drone, light meter, Mavic 4 Pro, Mini 4 Pro, 180 degree rule, shutter speed, cinematography">
 <meta name="author" content="ND Filter Advisor">
-
-<!-- Open Graph (WhatsApp, iMessage, Facebook link previews) -->
 <meta property="og:title" content="DJI ND Filter Advisor">
 <meta property="og:description" content="Meter the light with your iPhone, pick your DJI drone, get the right ND filter instantly. Free. No app download needed.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://via.placeholder.com/1200x630/0f6e56/ffffff?text=DJI+ND+Filter+Advisor">
-
-<!-- Twitter card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="DJI ND Filter Advisor">
 <meta name="twitter:description" content="Free iPhone tool for DJI drone pilots. Live light meter + ND filter calculator using the 180° shutter rule.">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <style>
 :root {
-  --green-dark: #0a4a37;
-  --green-mid: #0f6e56;
-  --green-bright: #1d9e75;
-  --green-light: #a8e6ce;
-  --green-pale: #e1f5ee;
-  --amber: #d97706;
-  --red: #dc2626;
+  --gd: #0a4a37;
+  --gm: #0f6e56;
+  --gb: #1d9e75;
+  --gl: #a8e6ce;
   --bg: #0d1117;
   --bg2: #161b22;
   --bg3: #21262d;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
-  --text: #e6edf3;
-  --text2: #8b949e;
-  --text3: #484f58;
-  --radius: 14px;
-  --radius-sm: 8px;
+  --bd: rgba(255,255,255,0.08);
+  --bd2: rgba(255,255,255,0.14);
+  --tx: #e6edf3;
+  --tx2: #8b949e;
+  --tx3: #484f58;
+  --r: 14px;
+  --rs: 8px;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg); color: var(--tx); font-family: 'DM Sans', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden; }
+.app { max-width: 430px; margin: 0 auto; padding: 0 0 calc(env(safe-area-inset-bottom) + 2rem); padding-top: env(safe-area-inset-top); }
 
-html, body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', system-ui, sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+/* Header */
+.hdr { padding: 1.1rem 1.25rem 1rem; display: flex; align-items: center; gap: 12px; border-bottom: 0.5px solid var(--bd); }
+.hdr-icon { width: 44px; height: 44px; background: var(--gm); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hdr-icon svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.hdr-text h1 { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+.hdr-text p { font-size: 12px; color: var(--tx2); margin-top: 1px; }
+.hdr-badge { margin-left: auto; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gb); background: rgba(29,158,117,0.12); border: 0.5px solid rgba(29,158,117,0.3); border-radius: 20px; padding: 3px 9px; white-space: nowrap; }
 
-.app {
-  max-width: 430px;
-  margin: 0 auto;
-  padding: 0 0 calc(env(safe-area-inset-bottom) + 2rem);
-  padding-top: env(safe-area-inset-top);
-}
+/* Install banner */
+.inst-ban { margin: 0.75rem 1.25rem 0; background: rgba(29,158,117,0.08); border: 0.5px solid rgba(29,158,117,0.25); border-radius: var(--rs); padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+.inst-ban svg { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: var(--gb); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.inst-ban p { font-size: 12px; color: var(--tx2); line-height: 1.5; }
+.inst-ban strong { color: var(--gl); }
+.inst-close { margin-left: auto; flex-shrink: 0; background: none; border: none; color: var(--tx3); font-size: 18px; cursor: pointer; padding: 0 0 0 6px; line-height: 1; }
 
-/* ── Header ── */
-.header {
-  padding: 1.25rem 1.25rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 0.5px solid var(--border);
-}
-.header-icon {
-  width: 44px; height: 44px;
-  background: var(--green-mid);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.header-icon svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.header-text h1 { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
-.header-text p { font-size: 12px; color: var(--text2); margin-top: 1px; }
-.header-badge {
-  margin-left: auto;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--green-bright);
-  background: rgba(29,158,117,0.12);
-  border: 0.5px solid rgba(29,158,117,0.3);
-  border-radius: 20px;
-  padding: 3px 9px;
-  white-space: nowrap;
-}
+/* Saved drone notice */
+.saved-notice { margin: 0.6rem 1.25rem 0; background: rgba(29,158,117,0.07); border: 0.5px solid rgba(29,158,117,0.2); border-radius: var(--rs); padding: 8px 12px; font-size: 12px; color: var(--gb); display: none; }
 
-/* ── Install banner ── */
-.install-banner {
-  margin: 0.75rem 1.25rem 0;
-  background: rgba(29,158,117,0.08);
-  border: 0.5px solid rgba(29,158,117,0.25);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.install-banner svg { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: var(--green-bright); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.install-banner p { font-size: 12px; color: var(--text2); line-height: 1.5; }
-.install-banner strong { color: var(--green-light); }
-.install-close { margin-left: auto; flex-shrink: 0; background: none; border: none; color: var(--text3); font-size: 18px; cursor: pointer; padding: 0 0 0 6px; line-height: 1; }
+/* Sections */
+.sec { padding: 1rem 1.25rem 0; }
+.sec-lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tx3); margin-bottom: 8px; }
 
-/* ── Sections ── */
-.section { padding: 1rem 1.25rem 0; }
-.section-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text3);
-  margin-bottom: 8px;
-}
-
-/* ── Form controls ── */
-select, input[type=number] {
-  width: 100%;
-  padding: 12px 14px;
-  font-size: 15px;
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg2);
-  color: var(--text);
-  border: 0.5px solid var(--border2);
-  border-radius: var(--radius-sm);
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
-  transition: border-color 0.15s;
-}
-select:focus, input[type=number]:focus { border-color: var(--green-bright); }
-
-.select-wrap { position: relative; }
-.select-wrap::after {
-  content: '';
-  position: absolute;
-  right: 14px; top: 50%;
-  transform: translateY(-50%);
-  width: 0; height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid var(--text2);
-  pointer-events: none;
-}
-
+/* Form controls */
+select { width: 100%; padding: 12px 14px; font-size: 15px; font-family: 'DM Sans', sans-serif; background: var(--bg2); color: var(--tx); border: 0.5px solid var(--bd2); border-radius: var(--rs); appearance: none; -webkit-appearance: none; outline: none; transition: border-color 0.15s; }
+select:focus { border-color: var(--gb); }
+.sel-wrap { position: relative; }
+.sel-wrap::after { content: ''; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid var(--tx2); pointer-events: none; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-/* ── Camera ── */
-.camera-wrap {
-  margin: 1rem 1.25rem 0;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: #000;
-  position: relative;
-  aspect-ratio: 4/3;
-  border: 0.5px solid var(--border2);
-  cursor: pointer;
-}
+/* Camera */
+.cam-wrap { margin: 1rem 1.25rem 0; border-radius: var(--r); overflow: hidden; background: #000; position: relative; aspect-ratio: 4/3; border: 0.5px solid var(--bd2); cursor: pointer; }
 #videoEl { width: 100%; height: 100%; object-fit: cover; display: block; }
 #canvas { display: none; }
-
 .cam-overlay { position: absolute; inset: 0; pointer-events: none; }
+.cam-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--gl); font-weight: 500; display: none; }
+.cam-hint { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.75)); padding: 24px 14px 14px; font-size: 12px; color: rgba(255,255,255,0.8); text-align: center; line-height: 1.5; }
 
-.cam-badge {
-  position: absolute;
-  top: 10px; left: 10px;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 11px;
-  font-family: 'DM Mono', monospace;
-  color: var(--green-light);
-  font-weight: 500;
-  display: none;
-}
-
-.cam-hint {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.75));
-  padding: 24px 14px 14px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.8);
-  text-align: center;
-  line-height: 1.5;
-}
-
-/* ── EV readout ── */
-.ev-card {
-  margin: 0.75rem 1.25rem 0;
-  background: var(--bg2);
-  border: 0.5px solid var(--border2);
-  border-radius: var(--radius-sm);
-  padding: 14px 16px;
-  display: none;
-  align-items: center;
-  gap: 0;
-}
-.ev-number {
-  font-size: 36px;
-  font-weight: 300;
-  font-family: 'DM Mono', monospace;
-  color: var(--green-light);
-  line-height: 1;
-  min-width: 80px;
-}
-.ev-number sup { font-size: 14px; color: var(--text2); margin-left: 2px; }
+/* EV readout */
+.ev-card { margin: 0.75rem 1.25rem 0; background: var(--bg2); border: 0.5px solid var(--bd2); border-radius: var(--rs); padding: 12px 14px; display: none; align-items: center; }
+.ev-num { font-size: 34px; font-weight: 300; font-family: 'DM Mono', monospace; color: var(--gl); line-height: 1; min-width: 76px; }
+.ev-num sup { font-size: 13px; color: var(--tx2); margin-left: 2px; }
 .ev-meta { flex: 1; }
-.ev-scene { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
-.ev-shutter { font-size: 12px; color: var(--text2); font-family: 'DM Mono', monospace; }
+.ev-scene { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.ev-shutter { font-size: 11px; color: var(--tx2); font-family: 'DM Mono', monospace; }
+.light-bar { margin: 0.4rem 1.25rem 0; height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; display: none; }
+.light-bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease, background 0.4s ease; }
 
-.light-bar {
-  margin: 0.5rem 1.25rem 0;
-  height: 4px;
-  background: var(--bg3);
-  border-radius: 2px;
-  overflow: hidden;
-  display: none;
-}
-.light-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.4s ease, background 0.4s ease;
-}
-
-/* ── Start button ── */
-.btn-start {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: calc(100% - 2.5rem);
-  margin: 0.75rem 1.25rem 0;
-  padding: 14px;
-  background: var(--green-mid);
-  color: #fff;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
-}
-.btn-start:active { background: var(--green-dark); transform: scale(0.98); }
+/* Start button */
+.btn-start { display: flex; align-items: center; justify-content: center; gap: 8px; width: calc(100% - 2.5rem); margin: 0.75rem 1.25rem 0; padding: 14px; background: var(--gm); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border: none; border-radius: var(--rs); cursor: pointer; transition: background 0.15s, transform 0.1s; }
+.btn-start:active { background: var(--gd); transform: scale(0.98); }
 .btn-start svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ── Result card ── */
-.result-card {
-  margin: 1rem 1.25rem 0;
-  background: var(--bg2);
-  border: 1px solid var(--green-mid);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  display: none;
-  animation: fadeUp 0.3s ease;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.result-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
-.result-nd-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green-bright); margin-bottom: 4px; }
-.result-nd { font-size: 42px; font-weight: 300; font-family: 'DM Mono', monospace; color: var(--green-light); line-height: 1; }
-.result-badge {
-  background: var(--green-dark);
-  color: var(--green-light);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-  margin-top: 4px;
-}
-.result-divider { height: 0.5px; background: var(--border); margin: 12px 0; }
-.result-rows { display: flex; flex-direction: column; gap: 8px; }
-.result-row { display: flex; justify-content: space-between; align-items: center; }
-.result-row-label { font-size: 13px; color: var(--text2); }
-.result-row-value { font-size: 13px; font-weight: 500; font-family: 'DM Mono', monospace; }
+/* ── Result card — BIG prominent panel ── */
+.result-panel { margin: 1rem 1.25rem 0; background: var(--gm); border-radius: var(--r); padding: 1.25rem; display: none; animation: fadeUp 0.3s ease; }
+.result-panel.no-filter { background: var(--bg2); border: 1px solid var(--bd2); }
+.result-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(168,230,206,0.8); margin-bottom: 4px; }
+.result-nd { font-size: 52px; font-weight: 300; font-family: 'DM Mono', monospace; color: #fff; line-height: 1; margin-bottom: 12px; }
+.result-panel.no-filter .result-nd { color: var(--tx2); }
+.result-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border-top: 0.5px solid rgba(255,255,255,0.2); padding-top: 12px; }
+.result-panel.no-filter .result-stats { border-top-color: var(--bd); }
+.r-stat { text-align: center; }
+.r-stat + .r-stat { border-left: 0.5px solid rgba(255,255,255,0.2); }
+.result-panel.no-filter .r-stat + .r-stat { border-left-color: var(--bd); }
+.r-stat-lbl { font-size: 10px; color: rgba(255,255,255,0.6); margin-bottom: 3px; }
+.result-panel.no-filter .r-stat-lbl { color: var(--tx3); }
+.r-stat-val { font-size: 13px; font-weight: 500; font-family: 'DM Mono', monospace; color: #fff; }
+.result-panel.no-filter .r-stat-val { color: var(--tx2); }
 
-/* ── Warning ── */
-.warn-card {
-  margin: 1rem 1.25rem 0;
-  background: rgba(217,119,6,0.1);
-  border: 0.5px solid rgba(217,119,6,0.3);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  font-size: 13px;
-  color: #fbbf24;
-  display: none;
-  line-height: 1.5;
-}
+/* Warning */
+.warn-card { margin: 0.75rem 1.25rem 0; background: rgba(217,119,6,0.1); border: 0.5px solid rgba(217,119,6,0.3); border-radius: var(--rs); padding: 12px 14px; font-size: 13px; color: #fbbf24; display: none; line-height: 1.5; }
 
-/* ── How to use ── */
-.steps {
-  margin: 1rem 1.25rem 0;
-  background: var(--bg2);
-  border: 0.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-.steps-title {
-  padding: 12px 14px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text3);
-  border-bottom: 0.5px solid var(--border);
-}
-.step {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 14px;
-  border-bottom: 0.5px solid var(--border);
-}
+/* ── Conditions guide ── */
+.cond-guide { margin: 1rem 1.25rem 0; }
+.cond-guide .sec-lbl { margin-bottom: 6px; }
+.cond-list { background: var(--bg2); border-radius: var(--r); overflow: hidden; border: 0.5px solid var(--bd); }
+.cond-row { display: flex; align-items: center; padding: 10px 14px; border-bottom: 0.5px solid var(--bd); transition: background 0.2s; }
+.cond-row:last-child { border-bottom: none; }
+.cond-row.active { background: rgba(29,158,117,0.12); border-left: 2px solid var(--gb); padding-left: 12px; }
+.cond-dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; flex-shrink: 0; }
+.cond-label { flex: 1; font-size: 12px; color: var(--tx); }
+.cond-here { font-size: 10px; color: var(--gb); margin-left: 5px; font-weight: 600; }
+.cond-filter { font-size: 12px; font-weight: 600; font-family: 'DM Mono', monospace; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+
+/* Steps */
+.steps { margin: 1rem 1.25rem 0; background: var(--bg2); border-radius: var(--r); overflow: hidden; border: 0.5px solid var(--bd); }
+.steps-title { padding: 10px 14px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tx3); border-bottom: 0.5px solid var(--bd); }
+.step { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-bottom: 0.5px solid var(--bd); }
 .step:last-child { border-bottom: none; }
-.step-num {
-  width: 22px; height: 22px;
-  background: var(--green-dark);
-  color: var(--green-light);
-  border-radius: 50%;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.step p { font-size: 13px; color: var(--text2); line-height: 1.5; }
-.step strong { color: var(--text); font-weight: 500; }
+.step-n { width: 20px; height: 20px; background: var(--gd); color: var(--gl); border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step p { font-size: 12px; color: var(--tx2); line-height: 1.5; }
+.step strong { color: var(--tx); font-weight: 500; }
 
-/* ── Footer ── */
-.footer {
-  padding: 1.5rem 1.25rem 0;
-  text-align: center;
-  border-top: 0.5px solid var(--border);
-  margin-top: 1.5rem;
-}
-.footer p { font-size: 11px; color: var(--text3); line-height: 1.8; }
-.footer a { color: var(--text2); text-decoration: none; }
+/* Footer */
+.footer { padding: 1.5rem 1.25rem 0; text-align: center; border-top: 0.5px solid var(--bd); margin-top: 1.5rem; }
+.footer p { font-size: 11px; color: var(--tx3); line-height: 1.8; }
 
-@keyframes pulse-ring {
-  0% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
-  100% { transform: translate(-50%,-50%) scale(1.6); opacity: 0; }
-}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse-ring { 0% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; } 100% { transform: translate(-50%,-50%) scale(1.6); opacity: 0; } }
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- Header -->
-  <div class="header">
-    <div class="header-icon">
+  <div class="hdr">
+    <div class="hdr-icon">
       <svg viewBox="0 0 24 24"><path d="M12 2L4 7v10l8 5 8-5V7z"/><circle cx="12" cy="12" r="2"/><path d="M4 7l8 5M20 7l-8 5M12 22V12"/></svg>
     </div>
-    <div class="header-text">
+    <div class="hdr-text">
       <h1>ND Filter Advisor</h1>
       <p>For DJI drone pilots</p>
     </div>
-    <div class="header-badge">Free</div>
+    <div class="hdr-badge">Free</div>
   </div>
 
-  <!-- Install to home screen banner -->
-  <div class="install-banner" id="installBanner">
+  <div class="inst-ban" id="installBanner">
     <svg viewBox="0 0 24 24"><path d="M12 2v13M8 11l4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-    <p>Tap <strong>Share → Add to Home Screen</strong> to use this like a native app — works offline once loaded.</p>
-    <button class="install-close" id="installClose" aria-label="Dismiss">×</button>
+    <p>Tap <strong>Share → Add to Home Screen</strong> to use this like a native app.</p>
+    <button class="inst-close" id="installClose" aria-label="Dismiss">×</button>
   </div>
 
-  <!-- Drone selection -->
-  <div class="section">
-    <div class="section-label">Step 1 — Your drone</div>
-    <div class="select-wrap">
+  <div class="saved-notice" id="savedNotice"></div>
+
+  <!-- Drone -->
+  <div class="sec">
+    <div class="sec-lbl">Step 1 — Your drone</div>
+    <div class="sel-wrap">
       <select id="droneSelect">
         <option value="">— Select your DJI drone —</option>
         <optgroup label="Mini series">
@@ -426,9 +204,9 @@ select:focus, input[type=number]:focus { border-color: var(--green-bright); }
   </div>
 
   <!-- Variable aperture -->
-  <div class="section" id="apertureSection" style="display:none;">
-    <div class="section-label">Aperture (variable — choose yours)</div>
-    <div class="select-wrap">
+  <div class="sec" id="apertureSection" style="display:none;">
+    <div class="sec-lbl">Aperture (variable — choose yours)</div>
+    <div class="sel-wrap">
       <select id="apertureSelect">
         <option value="2.0">f/2.0 — widest (Mavic 4 Pro)</option>
         <option value="2.8">f/2.8 — widest (Mavic 2/3 Pro)</option>
@@ -440,12 +218,12 @@ select:focus, input[type=number]:focus { border-color: var(--green-bright); }
     </div>
   </div>
 
-  <!-- Frame rate + ISO -->
-  <div class="section">
+  <!-- fps + ISO -->
+  <div class="sec">
     <div class="row2">
       <div>
-        <div class="section-label">Frame rate</div>
-        <div class="select-wrap">
+        <div class="sec-lbl">Frame rate</div>
+        <div class="sel-wrap">
           <select id="fpsSelect">
             <option value="24">24 fps</option>
             <option value="25">25 fps</option>
@@ -457,8 +235,8 @@ select:focus, input[type=number]:focus { border-color: var(--green-bright); }
         </div>
       </div>
       <div>
-        <div class="section-label">ISO (meter at)</div>
-        <div class="select-wrap">
+        <div class="sec-lbl">ISO (meter at)</div>
+        <div class="sel-wrap">
           <select id="isoSelect">
             <option value="100" selected>ISO 100</option>
             <option value="200">ISO 200</option>
@@ -470,11 +248,8 @@ select:focus, input[type=number]:focus { border-color: var(--green-bright); }
   </div>
 
   <!-- Camera -->
-  <div class="section">
-    <div class="section-label">Step 2 — Meter the light</div>
-  </div>
-
-  <div class="camera-wrap" id="cameraWrap">
+  <div class="sec"><div class="sec-lbl">Step 2 — Meter the light</div></div>
+  <div class="cam-wrap" id="cameraWrap">
     <video id="videoEl" playsinline autoplay muted></video>
     <canvas id="canvas"></canvas>
     <div class="cam-overlay" id="camOverlay"></div>
@@ -482,17 +257,14 @@ select:focus, input[type=number]:focus { border-color: var(--green-bright); }
     <div class="cam-hint" id="camHint">Tap to start · aim toward the brightest part of the sky</div>
   </div>
 
-  <!-- EV readout -->
   <div class="ev-card" id="evCard">
-    <div class="ev-number" id="evNumber">—<sup>EV</sup></div>
+    <div class="ev-num" id="evNumber">—<sup>EV</sup></div>
     <div class="ev-meta">
       <div class="ev-scene" id="evScene">—</div>
       <div class="ev-shutter" id="evShutter">—</div>
     </div>
   </div>
-  <div class="light-bar" id="lightBar">
-    <div class="light-bar-fill" id="lightBarFill"></div>
-  </div>
+  <div class="light-bar" id="lightBar"><div class="light-bar-fill" id="lightBarFill"></div></div>
 
   <button class="btn-start" id="startBtn">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M6.3 6.3A8 8 0 1 0 17.7 17.7"/><path d="M2 12h2M20 12h2M12 2v2M12 20v2"/></svg>
@@ -502,86 +274,99 @@ select:focus, input[type=number]:focus { border-color: var(--green-bright); }
   <!-- Warning -->
   <div class="warn-card" id="warnCard"></div>
 
-  <!-- Result -->
-  <div class="result-card" id="resultCard">
-    <div class="result-header">
-      <div>
-        <div class="result-nd-label">Step 3 — Recommended filter</div>
-        <div class="result-nd" id="ndResult">—</div>
+  <!-- Result panel -->
+  <div class="result-panel" id="resultPanel">
+    <div class="result-lbl">Step 3 — Recommended filter</div>
+    <div class="result-nd" id="ndResult">—</div>
+    <div class="result-stats">
+      <div class="r-stat">
+        <div class="r-stat-lbl">Target shutter</div>
+        <div class="r-stat-val" id="rTargetShutter">—</div>
       </div>
-      <div class="result-badge" id="stopsBadge">— stops</div>
+      <div class="r-stat">
+        <div class="r-stat-lbl">Unfiltered</div>
+        <div class="r-stat-val" id="rRawShutter">—</div>
+      </div>
+      <div class="r-stat">
+        <div class="r-stat-lbl">Stops needed</div>
+        <div class="r-stat-val" id="rStops">—</div>
+      </div>
     </div>
-    <div class="result-divider"></div>
-    <div class="result-rows">
-      <div class="result-row">
-        <span class="result-row-label">Target shutter (180° rule)</span>
-        <span class="result-row-value" id="rTargetShutter">—</span>
+  </div>
+
+  <!-- Conditions guide -->
+  <div class="cond-guide">
+    <div class="sec-lbl" style="padding: 1rem 0 0;">Conditions guide</div>
+    <div class="cond-list" id="condList">
+      <div class="cond-row" data-min="15" data-max="99">
+        <div class="cond-dot" style="background:#f59e0b;"></div>
+        <div class="cond-label">Bright direct sun<span class="cond-here" id="here-0"></span></div>
+        <div class="cond-filter" style="color:#f59e0b; background:rgba(245,158,11,0.12);">ND64–ND128</div>
       </div>
-      <div class="result-row">
-        <span class="result-row-label">Unfiltered shutter</span>
-        <span class="result-row-value" id="rRawShutter">—</span>
+      <div class="cond-row" data-min="13" data-max="15">
+        <div class="cond-dot" style="background:#fbbf24;"></div>
+        <div class="cond-label">Full daylight / hazy<span class="cond-here" id="here-1"></span></div>
+        <div class="cond-filter" style="color:#fbbf24; background:rgba(251,191,36,0.12);">ND32–ND64</div>
       </div>
-      <div class="result-row">
-        <span class="result-row-label">Aperture</span>
-        <span class="result-row-value" id="rAperture">—</span>
+      <div class="cond-row" data-min="11" data-max="13">
+        <div class="cond-dot" style="background:#a3e635;"></div>
+        <div class="cond-label">Full overcast<span class="cond-here" id="here-2"></span></div>
+        <div class="cond-filter" style="color:#a3e635; background:rgba(163,230,53,0.12);">ND8–ND16</div>
       </div>
-      <div class="result-row">
-        <span class="result-row-label">EV reading</span>
-        <span class="result-row-value" id="rEV">—</span>
+      <div class="cond-row" data-min="9" data-max="11">
+        <div class="cond-dot" style="background:#4ade80;"></div>
+        <div class="cond-label">Heavy overcast / shade<span class="cond-here" id="here-3"></span></div>
+        <div class="cond-filter" style="color:#4ade80; background:rgba(74,222,128,0.12);">ND4–ND8</div>
+      </div>
+      <div class="cond-row" data-min="7" data-max="9">
+        <div class="cond-dot" style="background:#34d399;"></div>
+        <div class="cond-label">Dusk / dawn / golden hour<span class="cond-here" id="here-4"></span></div>
+        <div class="cond-filter" style="color:#34d399; background:rgba(52,211,153,0.12);">ND4</div>
+      </div>
+      <div class="cond-row" data-min="0" data-max="7">
+        <div class="cond-dot" style="background:#818cf8;"></div>
+        <div class="cond-label">Low light / indoor<span class="cond-here" id="here-5"></span></div>
+        <div class="cond-filter" style="color:#818cf8; background:rgba(129,140,248,0.12);">No filter</div>
       </div>
     </div>
   </div>
 
   <!-- How to use -->
-  <div class="steps">
+  <div class="steps" style="margin: 1rem 1.25rem 0;">
     <div class="steps-title">How to use</div>
-    <div class="step">
-      <div class="step-num">1</div>
-      <p><strong>Select your drone</strong> — aperture is set automatically for fixed-lens models.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <p><strong>Set frame rate and ISO</strong> — 30fps / ISO 100 recommended for most conditions.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <p><strong>Start the camera</strong> and point toward the <strong>brightest part of the sky</strong>. Tap to move the meter spot.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <p><strong>Fit the recommended ND filter</strong> before take-off, then lock your drone in manual mode.</p>
-    </div>
+    <div class="step"><div class="step-n">1</div><p><strong>Select your drone</strong> — aperture is set automatically. Your last choice is remembered.</p></div>
+    <div class="step"><div class="step-n">2</div><p><strong>Start the camera</strong> and aim at the <strong>brightest part of the sky</strong>. Tap to move the meter spot.</p></div>
+    <div class="step"><div class="step-n">3</div><p><strong>Fit the recommended ND filter</strong> before take-off, then lock your drone in manual mode and fly.</p></div>
   </div>
 
-  <!-- Footer -->
   <div class="footer">
     <p>DJI ND Filter Advisor · Free for all drone pilots</p>
     <p>Based on the 180° shutter rule · Built for iPhone Safari</p>
-    <p style="margin-top:8px;">Tap Share → Add to Home Screen for offline access</p>
+    <p style="margin-top:6px;">Tap Share → Add to Home Screen for offline access</p>
   </div>
 
 </div>
 
 <script>
 const DRONES = {
-  mini2:        { label:'Mini 2',           aperture:2.8,  variable:false },
-  mini3:        { label:'Mini 3',           aperture:1.7,  variable:false },
-  mini3pro:     { label:'Mini 3 Pro',       aperture:1.7,  variable:false },
-  mini4pro:     { label:'Mini 4 Pro',       aperture:1.7,  variable:false },
-  mini5pro:     { label:'Mini 5 Pro',       aperture:1.7,  variable:false },
-  air2:         { label:'Air 2',            aperture:2.8,  variable:false },
-  air2s:        { label:'Air 2S',           aperture:2.8,  variable:false },
-  air3w:        { label:'Air 3 (wide)',     aperture:1.7,  variable:false },
-  air3t:        { label:'Air 3 (tele)',     aperture:2.8,  variable:false },
-  mavic4pro_wide:   { label:'Mavic 4 Pro (wide 28mm)',     aperture:2.0,  variable:true },
-  mavic4pro_midtele:{ label:'Mavic 4 Pro (mid-tele 70mm)', aperture:2.8,  variable:false },
-  mavic4pro_tele:   { label:'Mavic 4 Pro (tele 168mm)',    aperture:2.8,  variable:false },
-  mavic2pro:    { label:'Mavic 2 Pro',      aperture:2.8,  variable:true },
-  mavic3pro:    { label:'Mavic 3 Pro',      aperture:2.8,  variable:true },
-  mavic3classic:{ label:'Mavic 3 Classic',  aperture:2.8,  variable:true },
-  phantom4pro:  { label:'Phantom 4 Pro',    aperture:2.8,  variable:true },
-  avata:        { label:'Avata',            aperture:2.8,  variable:false },
-  neo:          { label:'Neo',              aperture:2.8,  variable:false },
+  mini2:         { label:'Mini 2',                  aperture:2.8, variable:false },
+  mini3:         { label:'Mini 3',                  aperture:1.7, variable:false },
+  mini3pro:      { label:'Mini 3 Pro',              aperture:1.7, variable:false },
+  mini4pro:      { label:'Mini 4 Pro',              aperture:1.7, variable:false },
+  mini5pro:      { label:'Mini 5 Pro',              aperture:1.7, variable:false },
+  air2:          { label:'Air 2',                   aperture:2.8, variable:false },
+  air2s:         { label:'Air 2S',                  aperture:2.8, variable:false },
+  air3w:         { label:'Air 3 (wide)',             aperture:1.7, variable:false },
+  air3t:         { label:'Air 3 (tele)',             aperture:2.8, variable:false },
+  mavic4pro_wide:    { label:'Mavic 4 Pro (wide 28mm)',     aperture:2.0, variable:true },
+  mavic4pro_midtele: { label:'Mavic 4 Pro (mid-tele 70mm)', aperture:2.8, variable:false },
+  mavic4pro_tele:    { label:'Mavic 4 Pro (tele 168mm)',    aperture:2.8, variable:false },
+  mavic2pro:     { label:'Mavic 2 Pro',             aperture:2.8, variable:true },
+  mavic3pro:     { label:'Mavic 3 Pro',             aperture:2.8, variable:true },
+  mavic3classic: { label:'Mavic 3 Classic',         aperture:2.8, variable:true },
+  phantom4pro:   { label:'Phantom 4 Pro',           aperture:2.8, variable:true },
+  avata:         { label:'Avata',                   aperture:2.8, variable:false },
+  neo:           { label:'Neo',                     aperture:2.8, variable:false },
 };
 
 const ND_STOPS = [
@@ -622,8 +407,7 @@ function calcND(ev, aperture, fps, iso) {
   const targetShutter = 1 / (fps * 2);
   const apertureAdj = 2 * Math.log2(aperture / 1.0);
   const baseEV = ev - Math.log2(iso / 100);
-  const unmeteredShutterEV = baseEV - apertureAdj;
-  const unmeteredShutter = Math.pow(2, -unmeteredShutterEV);
+  const unmeteredShutter = Math.pow(2, -(baseEV - apertureAdj));
   const stopsNeeded = Math.log2(unmeteredShutter / targetShutter);
   return { stopsNeeded, targetShutter, unmeteredShutter };
 }
@@ -641,6 +425,58 @@ function formatShutter(s) {
   return '1/' + Math.round(1 / s) + 's';
 }
 
+// localStorage helpers
+function savePrefs() {
+  try {
+    localStorage.setItem('nd_drone', droneSelect.value);
+    localStorage.setItem('nd_fps', fpsSelect.value);
+    localStorage.setItem('nd_iso', isoSelect.value);
+    localStorage.setItem('nd_ap', apertureSelect.value);
+  } catch(e) {}
+}
+
+function loadPrefs() {
+  try {
+    const drone = localStorage.getItem('nd_drone');
+    const fps   = localStorage.getItem('nd_fps');
+    const iso   = localStorage.getItem('nd_iso');
+    const ap    = localStorage.getItem('nd_ap');
+    if (fps)   fpsSelect.value = fps;
+    if (iso)   isoSelect.value = iso;
+    if (ap)    apertureSelect.value = ap;
+    if (drone && DRONES[drone]) {
+      droneSelect.value = drone;
+      const d = DRONES[drone];
+      if (d.variable) {
+        apertureSection.style.display = '';
+        if (ap) apertureSelect.value = ap;
+        else apertureSelect.value = String(d.aperture);
+      }
+      const notice = document.getElementById('savedNotice');
+      notice.textContent = 'Last used: DJI ' + d.label + ' — tap to change';
+      notice.style.display = 'block';
+    }
+  } catch(e) {}
+}
+
+// Update conditions guide highlight
+function updateCondGuide(ev) {
+  const rows = document.querySelectorAll('.cond-row');
+  rows.forEach((row, i) => {
+    const min = parseFloat(row.dataset.min);
+    const max = parseFloat(row.dataset.max);
+    const here = document.getElementById('here-' + i);
+    if (ev >= min && ev < max) {
+      row.classList.add('active');
+      if (here) here.textContent = ' ← now';
+    } else {
+      row.classList.remove('active');
+      if (here) here.textContent = '';
+    }
+  });
+}
+
+// DOM refs
 const video          = document.getElementById('videoEl');
 const canvas         = document.getElementById('canvas');
 const ctx            = canvas.getContext('2d');
@@ -651,13 +487,11 @@ const evScene        = document.getElementById('evScene');
 const evShutter      = document.getElementById('evShutter');
 const lightBar       = document.getElementById('lightBar');
 const lightBarFill   = document.getElementById('lightBarFill');
-const resultCard     = document.getElementById('resultCard');
+const resultPanel    = document.getElementById('resultPanel');
 const ndResult       = document.getElementById('ndResult');
-const stopsBadge     = document.getElementById('stopsBadge');
 const rTargetShutter = document.getElementById('rTargetShutter');
 const rRawShutter    = document.getElementById('rRawShutter');
-const rAperture      = document.getElementById('rAperture');
-const rEV            = document.getElementById('rEV');
+const rStops         = document.getElementById('rStops');
 const warnCard       = document.getElementById('warnCard');
 const droneSelect    = document.getElementById('droneSelect');
 const apertureSection= document.getElementById('apertureSection');
@@ -671,10 +505,7 @@ const cameraWrap     = document.getElementById('cameraWrap');
 const installBanner  = document.getElementById('installBanner');
 const installClose   = document.getElementById('installClose');
 
-// Dismiss install banner
 installClose.addEventListener('click', () => { installBanner.style.display = 'none'; });
-
-// Hide banner if already installed as PWA
 if (window.navigator.standalone) installBanner.style.display = 'none';
 
 let cameraActive = false;
@@ -683,15 +514,19 @@ let currentEV = null;
 let reticleEl = null;
 let pulseEl = null;
 
+// Load saved prefs on startup
+loadPrefs();
+
 droneSelect.addEventListener('change', () => {
   const d = DRONES[droneSelect.value];
   apertureSection.style.display = (d && d.variable) ? '' : 'none';
-  if (d && d.variable) {
-    apertureSelect.value = String(d.aperture);
-  }
+  if (d && d.variable) apertureSelect.value = String(d.aperture);
+  document.getElementById('savedNotice').style.display = 'none';
+  savePrefs();
   updateResult();
 });
-[apertureSelect, fpsSelect, isoSelect].forEach(el => el.addEventListener('change', updateResult));
+
+[apertureSelect, fpsSelect, isoSelect].forEach(el => el.addEventListener('change', () => { savePrefs(); updateResult(); }));
 
 cameraWrap.addEventListener('click', e => {
   if (!cameraActive) { startCamera(); return; }
@@ -707,10 +542,7 @@ function positionReticle() {
   if (!reticleEl) return;
   reticleEl.style.left = (meterX * 100) + '%';
   reticleEl.style.top  = (meterY * 100) + '%';
-  if (pulseEl) {
-    pulseEl.style.left = (meterX * 100) + '%';
-    pulseEl.style.top  = (meterY * 100) + '%';
-  }
+  if (pulseEl) { pulseEl.style.left = (meterX * 100) + '%'; pulseEl.style.top = (meterY * 100) + '%'; }
 }
 
 function buildReticle() {
@@ -766,11 +598,8 @@ function meterLoop() {
     if (w > 0 && h > 0) {
       const data = ctx.getImageData(x, y, w, h).data;
       let lum = 0;
-      for (let i = 0; i < data.length; i += 4) {
-        lum += 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
-      }
-      const avg = lum / (data.length / 4);
-      currentEV = brightnessToEV(avg, parseInt(isoSelect.value));
+      for (let i = 0; i < data.length; i += 4) lum += 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
+      currentEV = brightnessToEV(lum / (data.length / 4), parseInt(isoSelect.value));
       updateEVDisplay(currentEV);
       updateResult();
     }
@@ -785,31 +614,37 @@ function updateEVDisplay(ev) {
   evScene.style.color = scene.color;
   const fps = parseInt(fpsSelect.value);
   evShutter.textContent = '180° target: ' + formatShutter(1 / (fps * 2)) + ' @ ' + fps + 'fps';
-  const pct = Math.min(100, Math.max(0, ((ev - 4) / 12) * 100));
-  lightBarFill.style.width = pct.toFixed(0) + '%';
+  lightBarFill.style.width = Math.min(100, Math.max(0, ((ev - 4) / 12) * 100)).toFixed(0) + '%';
   lightBarFill.style.background = scene.color;
+  updateCondGuide(ev);
 }
 
 function updateResult() {
   warnCard.style.display = 'none';
-  if (currentEV === null) { resultCard.style.display = 'none'; return; }
+  if (currentEV === null) { resultPanel.style.display = 'none'; return; }
   const droneKey = droneSelect.value;
-  if (!droneKey) { resultCard.style.display = 'none'; return; }
+  if (!droneKey) { resultPanel.style.display = 'none'; return; }
   const drone    = DRONES[droneKey];
   const aperture = drone.variable ? parseFloat(apertureSelect.value) : drone.aperture;
   const fps      = parseInt(fpsSelect.value);
   const iso      = parseInt(isoSelect.value);
   const { stopsNeeded, targetShutter, unmeteredShutter } = calcND(currentEV, aperture, fps, iso);
   const nd = pickND(stopsNeeded);
-  ndResult.textContent         = nd.nd;
-  stopsBadge.textContent       = Math.max(0, stopsNeeded).toFixed(1) + ' stops';
-  rTargetShutter.textContent   = formatShutter(targetShutter);
-  rRawShutter.textContent      = formatShutter(unmeteredShutter);
-  rAperture.textContent        = 'f/' + aperture;
-  rEV.textContent              = currentEV.toFixed(1) + ' EV';
-  resultCard.style.display     = '';
+
+  ndResult.textContent       = nd.nd;
+  rTargetShutter.textContent = formatShutter(targetShutter);
+  rRawShutter.textContent    = formatShutter(unmeteredShutter);
+  rStops.textContent         = Math.max(0, stopsNeeded).toFixed(1);
+  resultPanel.style.display  = '';
+
+  if (stopsNeeded <= 0 || nd.nd === 'No filter') {
+    resultPanel.classList.add('no-filter');
+  } else {
+    resultPanel.classList.remove('no-filter');
+  }
+
   if (stopsNeeded < 0) {
-    warnCard.textContent   = '⚠ Light is low — no ND filter needed. Raise ISO or widen aperture if possible.';
+    warnCard.textContent   = '⚠ Light is low — no ND filter needed. This is correct for overcast or low-light conditions.';
     warnCard.style.display = 'block';
   } else if (stopsNeeded > 10) {
     warnCard.textContent   = '⚠ Very bright conditions. Consider stacking two filters (e.g. ND64 + ND16) or shooting at a different time.';
