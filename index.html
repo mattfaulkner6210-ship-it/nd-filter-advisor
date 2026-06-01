@@ -407,6 +407,9 @@ select:focus, input[type=number]:focus { border-color: var(--green-bright); }
           <option value="air3t">DJI Air 3 Tele — f/2.8 fixed</option>
         </optgroup>
         <optgroup label="Mavic series">
+          <option value="mavic4pro_wide">DJI Mavic 4 Pro — Wide 28mm (f/2.0–f/11 variable)</option>
+          <option value="mavic4pro_midtele">DJI Mavic 4 Pro — Mid-tele 70mm (f/2.8 fixed)</option>
+          <option value="mavic4pro_tele">DJI Mavic 4 Pro — Tele 168mm (f/2.8 fixed)</option>
           <option value="mavic2pro">DJI Mavic 2 Pro — f/2.8–f/11 variable</option>
           <option value="mavic3pro">DJI Mavic 3 Pro — f/2.8–f/11 variable</option>
           <option value="mavic3classic">DJI Mavic 3 Classic — f/2.8–f/11 variable</option>
@@ -427,7 +430,8 @@ select:focus, input[type=number]:focus { border-color: var(--green-bright); }
     <div class="section-label">Aperture (variable — choose yours)</div>
     <div class="select-wrap">
       <select id="apertureSelect">
-        <option value="2.8">f/2.8 — widest (recommended)</option>
+        <option value="2.0">f/2.0 — widest (Mavic 4 Pro)</option>
+        <option value="2.8">f/2.8 — widest (Mavic 2/3 Pro)</option>
         <option value="4">f/4</option>
         <option value="5.6">f/5.6</option>
         <option value="8">f/8</option>
@@ -569,6 +573,9 @@ const DRONES = {
   air2s:        { label:'Air 2S',           aperture:2.8,  variable:false },
   air3w:        { label:'Air 3 (wide)',     aperture:1.7,  variable:false },
   air3t:        { label:'Air 3 (tele)',     aperture:2.8,  variable:false },
+  mavic4pro_wide:   { label:'Mavic 4 Pro (wide 28mm)',     aperture:2.0,  variable:true },
+  mavic4pro_midtele:{ label:'Mavic 4 Pro (mid-tele 70mm)', aperture:2.8,  variable:false },
+  mavic4pro_tele:   { label:'Mavic 4 Pro (tele 168mm)',    aperture:2.8,  variable:false },
   mavic2pro:    { label:'Mavic 2 Pro',      aperture:2.8,  variable:true },
   mavic3pro:    { label:'Mavic 3 Pro',      aperture:2.8,  variable:true },
   mavic3classic:{ label:'Mavic 3 Classic',  aperture:2.8,  variable:true },
@@ -679,6 +686,9 @@ let pulseEl = null;
 droneSelect.addEventListener('change', () => {
   const d = DRONES[droneSelect.value];
   apertureSection.style.display = (d && d.variable) ? '' : 'none';
+  if (d && d.variable) {
+    apertureSelect.value = String(d.aperture);
+  }
   updateResult();
 });
 [apertureSelect, fpsSelect, isoSelect].forEach(el => el.addEventListener('change', updateResult));
