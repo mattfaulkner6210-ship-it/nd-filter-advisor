@@ -10,9 +10,10 @@ A free, mobile-first web app for DJI drone pilots. Meter the light with your iPh
 
 1. **Selects your DJI drone** — aperture is set automatically for fixed-lens models, or you can input your chosen aperture for variable-aperture drones
 2. **Meters the live light** using your iPhone's rear camera — tap anywhere on the viewfinder to place the spot meter on the brightest part of the sky
-3. **Recommends the correct ND filter** based on your drone, frame rate, ISO, and the current light conditions
-4. **Shows a conditions guide** that highlights where your current reading sits — from intense direct sun down to low light — with typical filter ranges for each condition
-5. **Remembers your settings** — your last drone, frame rate, ISO and aperture are saved and pre-loaded next time you open the app
+3. **Freezes the reading** — tap Freeze to lock the EV reading and ND filter recommendation so you can lower the phone and read the screen comfortably without values changing
+4. **Recommends the correct ND filter** based on your drone, frame rate, ISO, and the current light conditions
+5. **Shows a conditions guide** that highlights where your current reading sits — from intense direct sun down to low light — with typical filter ranges for each condition
+6. **Remembers your settings** — your last drone, frame rate, ISO and aperture are saved and pre-loaded next time you open the app
 
 ---
 
@@ -35,7 +36,9 @@ The 180° shutter rule is the gold standard for cinematic video. It states that 
 | 24 fps | 1/48s |
 | 25 fps | 1/50s |
 | 30 fps | 1/60s |
+| 48 fps | 1/96s |
 | 60 fps | 1/120s |
+| 120 fps | 1/240s |
 
 This ratio produces natural-looking motion blur that matches how our eyes perceive movement, giving footage a filmic quality rather than the harsh, video-like look of a high shutter speed.
 
@@ -51,7 +54,8 @@ ND filters are rated by how many stops of light they block:
 | ND32 | 1/32 | 5 stops | Hazy daylight |
 | ND64 | 1/64 | 6 stops | Full daylight |
 | ND128 | 1/128 | 7 stops | Bright sun |
-| ND256+ | 1/256+ | 8+ stops | Intense direct sun |
+| ND256 | 1/256 | 8 stops | Intense direct sun |
+| ND1000 | 1/1000 | 10 stops | Extreme conditions / stacking |
 
 Each step up doubles the filter strength and allows the shutter speed to be halved. Choosing the wrong filter results in either overexposed footage (filter too weak) or underexposed footage (filter too strong).
 
@@ -100,10 +104,14 @@ Fixed-aperture drones have their aperture set automatically. Variable-aperture d
 4. Set your **frame rate** and **ISO** (ISO 100 recommended)
 5. Tap **Start camera meter** and allow camera access
 6. Point toward the **brightest part of the sky** and tap to place the meter spot there
-7. Read the **recommended ND filter** from the green panel
-8. Fit the filter to your drone **before take-off**, set manual mode, and fly
+7. Tap **Freeze reading** to lock the EV value and ND filter recommendation in place
+8. Lower the phone and read the **recommended ND filter** from the green panel at your leisure
+9. Tap **Unfreeze** if you want to take a fresh reading, or **Restart** if the camera needs resetting
+10. Fit the filter to your drone **before take-off**, set manual mode, and fly
 
 > **Tip:** Always meter toward the sun direction, even when shooting in another direction. This protects your highlights — blown sky cannot be recovered in post, but underexposed shadows can.
+
+> **Tip:** The Freeze button is especially useful in bright sun when the screen is hard to read — point, freeze, shade the screen, read.
 
 ---
 
@@ -113,6 +121,8 @@ Fixed-aperture drones have their aperture set automatically. Variable-aperture d
 - Uses the browser `getUserMedia` API for live camera access (requires `https://` — works via GitHub Pages)
 - Camera permission prompt shows the app name when launched from the home screen icon
 - Settings are saved using `localStorage` and persist between sessions
+- Freeze/Unfreeze locks the EV reading and ND recommendation without stopping the camera stream
+- Restart button allows the camera to be restarted at any time without reloading the page
 - Works in any modern browser over `https://` — optimised for iPhone Safari
 - Offline capable once loaded and added to home screen
 
@@ -121,8 +131,20 @@ Fixed-aperture drones have their aperture set automatically. Variable-aperture d
 ## Limitations
 
 - Light metering via browser camera is a good approximation but is not as precise as a dedicated hardware light meter. For critical professional work, consider verifying with a dedicated metering app
-- The camera uses your iPhone's auto-exposure as a base reference — for best results, hold the phone steady and point directly at the sky before tapping the meter spot
+- The camera uses your iPhone's auto-exposure as a base reference — for best results, hold the phone steady and point directly at the sky before freezing the reading
 - Camera access is blocked when the file is opened directly from local storage (`file://`) — the app must be accessed via `https://` to enable the camera meter
+
+---
+
+## Changelog
+
+### June 2026
+- Added **Freeze / Unfreeze** button — locks the EV reading and ND filter recommendation so the screen can be read without values changing
+- Added **Restart** button — restarts the camera at any time without reloading the page
+- Added DJI Mavic 4 Pro (all three cameras)
+- Added conditions guide with live highlight
+- Added localStorage settings memory
+- Fixed contradictory warning message at borderline EV readings
 
 ---
 
