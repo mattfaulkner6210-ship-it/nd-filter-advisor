@@ -643,8 +643,8 @@ function updateResult() {
     resultPanel.classList.remove('no-filter');
   }
 
-  if (stopsNeeded < 0) {
-    warnCard.textContent   = '⚠ Light is low — no ND filter needed. This is correct for overcast or low-light conditions.';
+  if (currentEV < 7 && nd.nd === 'No filter') {
+    warnCard.textContent   = '⚠ Low light — no ND filter needed. Raise ISO or use a wider aperture if the image is too dark.';
     warnCard.style.display = 'block';
   } else if (stopsNeeded > 10) {
     warnCard.textContent   = '⚠ Very bright conditions. Consider stacking two filters (e.g. ND64 + ND16) or shooting at a different time.';
